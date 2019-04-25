@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SaiApi</string>
+    <string name="app_name">ApiDev</string>
     <string name="title_login">Login</string>
     <string name="msg_username">username*</string>
     <string name="msg_password">password*</string>

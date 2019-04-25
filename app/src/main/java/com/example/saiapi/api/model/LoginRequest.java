@@ -1,4 +1,4 @@
-package com.example.saiapi;
+package com.example.saiapi.api.model;
 
 import com.google.gson.annotations.SerializedName;
 

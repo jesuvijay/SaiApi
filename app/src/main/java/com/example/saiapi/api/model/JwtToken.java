@@ -1,8 +1,8 @@
-package com.example.saiapi;
+package com.example.saiapi.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Login {
+public class JwtToken {
     @SerializedName("jwt")
     private String jswttoken;
 
@@ -11,10 +11,6 @@ public class Login {
     }
 
     public void setJswttoken(String jswttoken) {
-        this.jswttoken = jswttoken;
-    }
-
-    public Login(String jswttoken) {
         this.jswttoken = jswttoken;
     }
 }
