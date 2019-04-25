@@ -39,15 +39,9 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPasswd);
         btnSubmit = findViewById(R.id.btnSubmit);
         api = ApiClient.getClient().create(Api.class);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getJwtTokenCall();
-
-            }
-        });
+        btnSubmit.setOnClickListener(v -> getJwtTokenCall());
         // for organization list
-       getOrganizationList("Bearer "+getJwtToken(),10, 10);
+       getOrganizationList("Bearer "+getJwtToken(),1, 0);
     }
 
     private void getJwtTokenCall() {
