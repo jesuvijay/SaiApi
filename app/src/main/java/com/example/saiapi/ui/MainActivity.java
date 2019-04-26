@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         api = ApiClient.getClient().create(Api.class);
         btnSubmit.setOnClickListener(v -> getJwtTokenCall());
         // for organization list
-       getOrganizationList("Bearer "+getJwtToken(),1, 0);
+       getOrganizationList(getJwtToken(),1, 0);
     }
 
     private void getJwtTokenCall() {
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, login.getJswttoken(), Toast.LENGTH_SHORT).show();
                         jwtToken = login.getJswttoken();
                         setJwtToken(jwtToken);
+                        getOrganizationList(getJwtToken(),1, 0);
                     } else
                         Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                 }
@@ -78,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
      * @param offset Offset in the result-set (for pagination).
      */
     public void getOrganizationList(String jwtToken,int limit, int offset) {
+        Log.d(TAG, "getOrganizationList: "+jwtToken);
         final Call<OrganizationList> organizationListCall = api.getOrganization(jwtToken,limit, offset);
-        organizationListCall.enqueue(new Callback<com.example.saiapi.api.model.OrganizationList>() {
+        organizationListCall.enqueue(new Callback<OrganizationList>() {
             @Override
             public void onResponse(Call<com.example.saiapi.api.model.OrganizationList> call, Response<com.example.saiapi.api.model.OrganizationList> response) {
                 Log.d(TAG, "onResponse: " + response.code());
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     // set jwt token
     private void setJwtToken(String jwtToken) {
         Prefs.init(getApplicationContext());
-        Prefs.putStrPref(Keys.JWT_TOKEN, Defaults.JWT_TOKEN);
+        Prefs.putStrPref(Keys.JWT_TOKEN, jwtToken);
 
     }
 
