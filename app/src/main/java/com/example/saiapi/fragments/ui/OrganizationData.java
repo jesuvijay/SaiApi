@@ -1,12 +1,6 @@
-package com.example.saiapi.ui;
+package com.example.saiapi.fragments.ui;
 
-import android.util.Log;
-
-import com.example.saiapi.api.model.OrganizationList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.saiapi.MainActivity;
 
 public class OrganizationData {
     private MainActivity mainActivity;

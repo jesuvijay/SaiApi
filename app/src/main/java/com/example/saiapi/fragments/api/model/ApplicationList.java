@@ -1,4 +1,4 @@
-package com.example.saiapi.api.model;
+package com.example.saiapi.fragments.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,5 +12,11 @@ public class ApplicationList {
     @SerializedName("result")
     private List<ApplicationLora> applicationLoras;
 
+    public String getTotalCount() {
+        return totalCount;
+    }
 
+    public List<ApplicationLora> getApplicationLoras() {
+        return applicationLoras;
+    }
 }

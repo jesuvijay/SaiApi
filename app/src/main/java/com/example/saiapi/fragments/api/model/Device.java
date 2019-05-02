@@ -1,4 +1,4 @@
-package com.example.saiapi.api.model;
+package com.example.saiapi.fragments.api.model;
 
 public class Device {
 

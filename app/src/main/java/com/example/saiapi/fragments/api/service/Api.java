@@ -1,16 +1,15 @@
-package com.example.saiapi.api.service;
+package com.example.saiapi.fragments.api.service;
 
-import com.example.saiapi.api.model.ApplicationList;
-import com.example.saiapi.api.model.DeviceList;
-import com.example.saiapi.api.model.JwtToken;
-import com.example.saiapi.api.model.LoginRequest;
-import com.example.saiapi.api.model.OrganizationList;
+import com.example.saiapi.fragments.api.model.ApplicationList;
+import com.example.saiapi.fragments.api.model.DeviceList;
+import com.example.saiapi.fragments.api.model.JwtToken;
+import com.example.saiapi.fragments.api.model.LoginRequest;
+import com.example.saiapi.fragments.api.model.OrganizationList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
