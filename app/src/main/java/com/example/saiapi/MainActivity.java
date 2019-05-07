@@ -36,29 +36,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    // getDevice list
-    private void getDeviceList(String jwtToken, String limit, String offset, String appId, String serviceProfId) {
-        Log.d(TAG, "getApplicationList: " + jwtToken);
-        final Call<DeviceList> applDeviceListCall = ApiClient.getApi().getDeviceList(jwtToken, limit, offset, appId, serviceProfId);
-        applDeviceListCall.enqueue(new Callback<DeviceList>() {
-            @Override
-            public void onResponse(Call<DeviceList> call, Response<DeviceList> response) {
-                Log.d(TAG, "onResponse: " + response.code());
-                DeviceList deviceList = response.body();
-                if (deviceList != null) {
-                    Log.i(TAG, "onResponse: " + deviceList.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DeviceList> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-                call.cancel();
-
-            }
-        });
-
-    }
-
-
 }

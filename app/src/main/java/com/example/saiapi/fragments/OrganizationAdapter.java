@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
 public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.OrganizationViewHolder> {
 
     private List<Organization> organizationsList;
-    private OnItemClickListener clickListener;
+    private OnClickListener clickListener;
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnClickListener onItemClickListener) {
         clickListener = onItemClickListener;
     }
 
@@ -66,7 +66,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         @BindView(R.id.tvOrgTime)
         public TextView tvOrgTime;
 
-        public OrganizationViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
+        public OrganizationViewHolder(@NonNull View itemView, OnClickListener onItemClickListener) {
 
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -77,6 +77,15 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
                         onItemClickListener.onItemClick(position);
                     }
                 }
+            });
+            itemView.setOnLongClickListener(v->{
+                if (onItemClickListener!=null){
+                    int position=getAdapterPosition();
+                    if (position!=RecyclerView.NO_POSITION){
+                        onItemClickListener.onLongItemClick(position);
+                    }
+                }
+                return true;
             });
         }
 

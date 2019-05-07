@@ -10,4 +10,12 @@ public class DeviceList {
     private List<Device> devices;
     @SerializedName("totalCount")
     private String totalCount;
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public String getTotalCount() {
+        return totalCount;
+    }
 }

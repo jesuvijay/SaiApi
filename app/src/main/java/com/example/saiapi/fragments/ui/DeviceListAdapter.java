@@ -1,4 +1,4 @@
-package com.example.saiapi.fragments;
+package com.example.saiapi.fragments.ui;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saiapi.R;
+import com.example.saiapi.fragments.OnClickListener;
 import com.example.saiapi.fragments.api.model.ApplicationLora;
+import com.example.saiapi.fragments.api.model.Device;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder> {
+public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.DeviceViewHolder> {
 
-    private List<ApplicationLora> applicationsList;
+    private List<Device> devices;
     private OnClickListener onItemClickListener;
 
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
@@ -26,48 +28,50 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     }
 
 
+
     @NonNull
     @Override
-    public ApplicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.organization_listitem, parent, false);
-        return new ApplicationViewHolder(view,onItemClickListener);
+        return new DeviceViewHolder(view,onItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
-        ApplicationLora currentItem = applicationsList.get(position);
+    public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
+        Device currentItem = devices.get(position);
         holder.tvOrgName.setText(currentItem.getName());
-        holder.tvOrgTime.setText(currentItem.getDescription());
+        holder.tvOrgTime.setText(currentItem.getLastSeenAt());
 
     }
 
-    public ApplicationAdapter() {
+    public DeviceListAdapter() {
 
     }
 
-    public void addData(List<ApplicationLora> applicationLoras) {
-        applicationsList = applicationLoras;
+    public void addData(List<Device> _devices) {
+        devices = _devices;
         notifyDataSetChanged();
     }
 
+
+    public Device getItem(int position){
+        return devices.get(position);
+    }
     @Override
     public int getItemCount() {
-        if (applicationsList != null)
-            return applicationsList.size();
+        if (devices != null)
+            return devices.size();
         return 0;
     }
 
-    public ApplicationLora getItem(int position){
-        return applicationsList.get(position);
-    }
-    public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
+    public static class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.txtOrgName)
         public TextView tvOrgName;
         @BindView(R.id.tvOrgTime)
         public TextView tvOrgTime;
 
-        public ApplicationViewHolder(@NonNull View itemView, OnClickListener onItemClickListener) {
+        public DeviceViewHolder(@NonNull View itemView, OnClickListener onItemClickListener) {
 
             super(itemView);
             ButterKnife.bind(this, itemView);

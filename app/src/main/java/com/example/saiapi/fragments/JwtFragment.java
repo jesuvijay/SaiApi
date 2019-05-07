@@ -100,10 +100,14 @@ public class JwtFragment extends Fragment {
 
     private void callOrganizationList() {
         // remove fragment
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         OrganizationsFragment organizationsFragment = new OrganizationsFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(android.R.id.content, organizationsFragment).commit();
+        fragmentManager.beginTransaction()
+                .addToBackStack(OrganizationsFragment.class.getSimpleName())
+                .replace(android.R.id.content, organizationsFragment)
+                .commitAllowingStateLoss();
+
 
     }
 

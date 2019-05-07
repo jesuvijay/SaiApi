@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saiapi.R;
+import com.example.saiapi.fragments.api.model.Organization;
 import com.example.saiapi.fragments.api.model.OrganizationList;
 import com.example.saiapi.fragments.ui.ApiClient;
 import com.example.saiapi.utils.constants.Constants;
@@ -48,22 +49,29 @@ public class OrganizationsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(position -> {
-                    adapter.getItem(position);
-                    callApplicationList();
-                }
-        );
+
+        adapter.setOnItemClickListener(new OnClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                callApplicationList(adapter.getItem(position));
+            }
+
+            @Override
+            public void onLongItemClick(int position) {
+
+            }
+        });
         // for organization list
         getOrganizationList(" Bearer " + Constants.getJwtToken(getContext()), "50", "0");
         return view;
     }
 
     // call application list
-    private void callApplicationList() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-        ApplicationFragment applicationFragment = new ApplicationFragment();
+    private void callApplicationList(Organization organization) {
+//        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        ApplicationFragment applicationFragment = ApplicationFragment.newInstance(organization.getId());
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(android.R.id.content, applicationFragment).commit();
+        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(android.R.id.content, applicationFragment).commitAllowingStateLoss();
     }
 
 
@@ -91,6 +99,7 @@ public class OrganizationsFragment extends Fragment {
         });
 
     }
+
 
 
 }

@@ -12,5 +12,8 @@ public class Constants {
         return Prefs.getStrPref(Keys.JWT_TOKEN, Defaults.JWT_TOKEN);
     }
 
+    public static void showDialogFragment(){
+
+    }
 
 }

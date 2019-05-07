@@ -1,5 +1,9 @@
 package com.example.saiapi.fragments.api.model;
 
+import androidx.annotation.NonNull;
+
+import java.util.Locale;
+
 public class ApplicationLora {
 
 
@@ -29,5 +33,11 @@ public class ApplicationLora {
 
     public String getServiceProfileName() {
         return serviceProfileName;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format(Locale.US,"Id:%s\nName:%s\nDescription:%s\nOrganizationId:%s\nserviceProfileId:%s\nServiceProfileName:%s",id,name,description,organizationID,serviceProfileID,serviceProfileName);
     }
 }
