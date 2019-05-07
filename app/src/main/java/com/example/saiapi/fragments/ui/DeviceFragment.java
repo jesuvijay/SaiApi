@@ -2,21 +2,22 @@ package com.example.saiapi.fragments.ui;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.saiapi.R;
 import com.example.saiapi.fragments.AlertDialogFragment;
-import com.example.saiapi.fragments.ApplicationAdapter;
+import com.example.saiapi.fragments.ApplicationFragment;
 import com.example.saiapi.fragments.OnClickListener;
+import com.example.saiapi.fragments.api.model.Device;
 import com.example.saiapi.fragments.api.model.DeviceList;
 import com.example.saiapi.utils.constants.Constants;
 
@@ -93,7 +94,8 @@ public class DeviceFragment extends Fragment {
         adapter.setOnItemClickListener(new OnClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                // call stream data
+                callStreamList(adapter.getItem(position));
             }
 
             @Override
@@ -136,5 +138,12 @@ public class DeviceFragment extends Fragment {
 
     }
 
+    // call application list
+    private void callStreamList(Device device) {
+//        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        StreamDataFragment streamDataFragment = StreamDataFragment.newInstance(device.getDevEUI());
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(android.R.id.content, streamDataFragment).commitAllowingStateLoss();
+    }
 
 }
