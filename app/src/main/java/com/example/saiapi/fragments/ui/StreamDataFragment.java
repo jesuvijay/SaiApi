@@ -1,6 +1,7 @@
 package com.example.saiapi.fragments.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,16 @@ import androidx.fragment.app.Fragment;
 
 import com.example.saiapi.R;
 import com.example.saiapi.fragments.api.service.Api;
+import com.example.saiapi.utils.constants.Constants;
 
 import java.util.Observable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +35,12 @@ public class StreamDataFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String DEV_EUI = "dev_eui";
 
-
+    private static final String TAG = "StreamDataFragment";
     // TODO: Rename and change types of parameters
     private String devEui;
 
     @BindView(R.id.tvStreamData)
-    private TextView tvStreamData;
+     TextView tvStreamData;
 
     /**
      * Use this factory method to create a new instance of
@@ -66,13 +72,27 @@ public class StreamDataFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stream_data, container, false);
         ButterKnife.bind(this,view);
         // Inflate the layout for this fragment
-        callData();
+        callData(devEui);
 
         return view;
     }
 
     private void callData(String devEui){
-        ApiClient.getApi().streamJson(devEui).fla
+        Call<ResponseBody> responseBodyCall=ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()),devEui);
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    Log.d(TAG, response.body().toString());
+                    tvStreamData.setText(response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
 

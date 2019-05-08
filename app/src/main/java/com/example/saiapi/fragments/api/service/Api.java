@@ -36,6 +36,6 @@ public interface Api {
                                    @Query("applicationID") String appId, @Query("serviceProfileID") String serProfileId);
 
     @Streaming
-    @GET("api/devices/{jsonData}/events")
-    Observable<ResponseBody> streamJson(@Path("dev_eui") String jsonData);
+    @GET("api/devices/{dev_eui}/events")
+    Call<ResponseBody> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken,@Path("dev_eui") String jsonData);
 }

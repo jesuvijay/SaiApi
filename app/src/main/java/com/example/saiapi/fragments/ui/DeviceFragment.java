@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.example.saiapi.R;
 import com.example.saiapi.fragments.AlertDialogFragment;
 import com.example.saiapi.fragments.ApplicationFragment;
 import com.example.saiapi.fragments.OnClickListener;
+import com.example.saiapi.fragments.OrganizationsFragment;
 import com.example.saiapi.fragments.api.model.Device;
 import com.example.saiapi.fragments.api.model.DeviceList;
 import com.example.saiapi.utils.constants.Constants;
@@ -96,6 +98,7 @@ public class DeviceFragment extends Fragment {
             public void onItemClick(int position) {
                 // call stream data
                 callStreamList(adapter.getItem(position));
+                Toast.makeText(getActivity(), "ada", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -143,7 +146,8 @@ public class DeviceFragment extends Fragment {
 //        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         StreamDataFragment streamDataFragment = StreamDataFragment.newInstance(device.getDevEUI());
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(android.R.id.content, streamDataFragment).commitAllowingStateLoss();
+        fragmentManager.beginTransaction().addToBackStack(StreamDataFragment.class.getSimpleName()).replace(R.id.fragmentFrame, streamDataFragment).commitAllowingStateLoss();
+
     }
 
 }

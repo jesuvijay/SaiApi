@@ -20,9 +20,13 @@ import com.example.saiapi.fragments.ui.ApiClient;
 import com.example.saiapi.utils.preference.Keys;
 import com.example.saiapi.utils.preference.Prefs;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,12 +55,30 @@ public class JwtFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_jwt, container, false);
         // Inflate the layout for this fragment
         ButterKnife.bind(this, view);
+        getDateTime();
         return view;
     }
+
+    private String getDateTime() {
+        Calendar calendar=Calendar.getInstance();
+        return calendar.getTime().toString();
+
+    }
+
+//    public boolean compareDates(String old){
+//
+//    }
 
     @OnClick(R.id.btnSubmit)
     void submit() {
         getJwtTokenCall();
+    }
+
+    @OnLongClick(R.id.btnSubmit)
+    void longclick(){
+
+        callOrganizationList();
+
     }
 
     // set jwt token
@@ -105,7 +127,7 @@ public class JwtFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .addToBackStack(OrganizationsFragment.class.getSimpleName())
-                .replace(android.R.id.content, organizationsFragment)
+                .replace(R.id.fragmentFrame, organizationsFragment)
                 .commitAllowingStateLoss();
 
 

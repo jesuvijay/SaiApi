@@ -125,7 +125,7 @@ public class ApplicationFragment extends Fragment {
     public void callDeviceFragment(ApplicationLora applicationLora) {
         DeviceFragment deviceFragment = DeviceFragment.newInstance(applicationLora.getId(), applicationLora.getServiceProfileID());
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(android.R.id.content, deviceFragment).commitAllowingStateLoss();
+        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(R.id.fragmentFrame, deviceFragment).commitAllowingStateLoss();
 
 
     }

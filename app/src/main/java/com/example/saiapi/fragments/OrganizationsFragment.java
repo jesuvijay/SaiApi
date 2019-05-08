@@ -71,7 +71,7 @@ public class OrganizationsFragment extends Fragment {
 //        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         ApplicationFragment applicationFragment = ApplicationFragment.newInstance(organization.getId());
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(android.R.id.content, applicationFragment).commitAllowingStateLoss();
+        fragmentManager.beginTransaction().addToBackStack(ApplicationFragment.class.getSimpleName()).replace(R.id.fragmentFrame, applicationFragment).commitAllowingStateLoss();
     }
 
 
