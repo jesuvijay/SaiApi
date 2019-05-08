@@ -6,9 +6,6 @@ import com.example.saiapi.fragments.api.model.JwtToken;
 import com.example.saiapi.fragments.api.model.LoginRequest;
 import com.example.saiapi.fragments.api.model.OrganizationList;
 
-import java.util.Observable;
-
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,7 +15,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 public interface Api {
 
@@ -37,5 +33,5 @@ public interface Api {
 
     @Streaming
     @GET("api/devices/{dev_eui}/events")
-    Call<ResponseBody> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken,@Path("dev_eui") String jsonData);
+    Call<ResponseBody> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken, @Path("dev_eui") String jsonData);
 }

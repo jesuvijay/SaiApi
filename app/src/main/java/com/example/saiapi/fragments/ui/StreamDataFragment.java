@@ -1,6 +1,8 @@
 package com.example.saiapi.fragments.ui;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +12,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.saiapi.R;
-import com.example.saiapi.fragments.api.service.Api;
 import com.example.saiapi.utils.constants.Constants;
 
-import java.util.Observable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +45,7 @@ public class StreamDataFragment extends Fragment {
     private String devEui;
 
     @BindView(R.id.tvStreamData)
-     TextView tvStreamData;
+    TextView tvStreamData;
 
     /**
      * Use this factory method to create a new instance of
@@ -50,7 +55,7 @@ public class StreamDataFragment extends Fragment {
      * @return A new instance of fragment StreamDataFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StreamDataFragment newInstance( String devEui) {
+    public static StreamDataFragment newInstance(String devEui) {
         StreamDataFragment fragment = new StreamDataFragment();
         Bundle args = new Bundle();
         args.putString(DEV_EUI, devEui);
@@ -70,21 +75,82 @@ public class StreamDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream_data, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         // Inflate the layout for this fragment
+
         callData(devEui);
 
         return view;
     }
 
-    private void callData(String devEui){
-        Call<ResponseBody> responseBodyCall=ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()),devEui);
+    private void callData(String devEui) {
+        Call<ResponseBody> responseBodyCall = ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()), devEui);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    Log.d(TAG, response.body().toString());
-                    tvStreamData.setText(response.body().toString());
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "server contacted and has file");
+//                    tvStreamData.setText(response.body().toString());
+                    new AsyncTask<Void, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            boolean writtenToDisk = writeResponse(response.body());
+                            return null;
+                        }
+                    };
+                } else {
+                    Log.d(TAG, "server contact failed");
+                }
+            }
+
+            private boolean writeResponse(ResponseBody body) {
+                try {
+                    // todo change the file location/name according to your needs
+                    File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(null) + File.separator + "sample.txt");
+
+                    InputStream inputStream = null;
+                    OutputStream outputStream = null;
+
+                    try {
+                        byte[] fileReader = new byte[4096];
+
+                        long fileSize = body.contentLength();
+                        long fileSizeDownloaded = 0;
+
+                        inputStream = body.byteStream();
+                        outputStream = new FileOutputStream(futureStudioIconFile);
+
+                        while (true) {
+                            int read = inputStream.read(fileReader);
+
+                            if (read == -1) {
+                                break;
+                            }
+
+                            outputStream.write(fileReader, 0, read);
+
+                            fileSizeDownloaded += read;
+
+                            Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+                        }
+
+                        outputStream.flush();
+
+                        return true;
+                    } catch (IOException e) {
+                        return false;
+                    } finally {
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
+
+                        if (outputStream != null) {
+                            outputStream.close();
+                        }
+                    }
+                } catch (IOException e) {
+                    return false;
                 }
             }
 
@@ -93,6 +159,7 @@ public class StreamDataFragment extends Fragment {
 
             }
         });
+
     }
 
 
