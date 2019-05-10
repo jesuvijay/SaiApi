@@ -10,7 +10,15 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.saiapi.R;
+import com.example.saiapi.fragments.api.model.DeviceFrames;
 import com.example.saiapi.utils.constants.Constants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,14 +79,39 @@ public class StreamDataFragment extends Fragment {
 
         callData(devEui);
 
+//        http://192.168.0.202:8080/api/devices/5bd0804694cbea16/events
+
         return view;
     }
 
+//    public static void readStream() {
+//        try {
+//            JsonReader reader = new JsonReader(new InputStreamReader("http://192.168.0.202:8080/api/devices/5bd0804694cbea16/events", "UTF-8"));
+//            Gson gson = new GsonBuilder().create();
+//
+//            // Read file in stream mode
+//            reader.beginArray();
+//            while (reader.hasNext()) {
+//                // Read data into object model
+//                DeviceFrames person = gson.fromJson(reader, DeviceFrames.class);
+//                if (person.get() == 0 ) {
+//                    System.out.println("Stream mode: " + person);
+//                }
+//                break;
+//            }
+//            reader.close();
+//        } catch (UnsupportedEncodingException ex) {
+//        ...
+//        } catch (IOException ex) {
+//        ...
+//        }
+//    }
+
     private void callData(String devEui) {
-        Call<String> responseBodyCall = ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()), devEui);
-        responseBodyCall.enqueue(new Callback<String>() {
+        Call<DeviceFrames> responseBodyCall = ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()), devEui);
+        responseBodyCall.enqueue(new Callback<DeviceFrames>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<DeviceFrames> call, Response<DeviceFrames> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + response.body());
                 } else
@@ -86,7 +119,7 @@ public class StreamDataFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<DeviceFrames> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.toString());
 
             }

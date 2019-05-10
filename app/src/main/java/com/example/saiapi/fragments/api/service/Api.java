@@ -1,12 +1,12 @@
 package com.example.saiapi.fragments.api.service;
 
 import com.example.saiapi.fragments.api.model.ApplicationList;
+import com.example.saiapi.fragments.api.model.DeviceFrames;
 import com.example.saiapi.fragments.api.model.DeviceList;
 import com.example.saiapi.fragments.api.model.JwtToken;
 import com.example.saiapi.fragments.api.model.LoginRequest;
 import com.example.saiapi.fragments.api.model.OrganizationList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -31,7 +31,7 @@ public interface Api {
     Call<DeviceList> getDeviceList(@Header("Grpc-Metadata-Authorization") String jwtToken, @Query("limit") String limit, @Query("offset") String offset,
                                    @Query("applicationID") String appId, @Query("serviceProfileID") String serProfileId);
 
-
+    @Streaming
     @GET("api/devices/{dev_eui}/events")
-    Call<String> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken, @Path("dev_eui") String jsonData);
+    Call<DeviceFrames> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken, @Path("dev_eui") String jsonData);
 }

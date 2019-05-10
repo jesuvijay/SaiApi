@@ -8,4 +8,11 @@ public class DeviceFrames {
     @SerializedName("downlinkFrame")
     private DownlinkFrame downlinkFrame;
 
+    public DownlinkFrame getDownlinkFrame() {
+        return downlinkFrame;
+    }
+
+    public UpLinkFrame getUpLinkFrame() {
+        return upLinkFrame;
+    }
 }

@@ -9,6 +9,6 @@ public class UpLinkFrame {
     private String phyPayloadJSON;
     @SerializedName("rxInfo")
     private List<RxInfo> rxInfos;
-@SerializedName("txInfo")
+    @SerializedName("txInfo")
     private TxInfo txInfo;
 }
