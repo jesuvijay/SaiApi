@@ -31,7 +31,7 @@ public interface Api {
     Call<DeviceList> getDeviceList(@Header("Grpc-Metadata-Authorization") String jwtToken, @Query("limit") String limit, @Query("offset") String offset,
                                    @Query("applicationID") String appId, @Query("serviceProfileID") String serProfileId);
 
-    @Streaming
+
     @GET("api/devices/{dev_eui}/events")
-    Call<ResponseBody> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken, @Path("dev_eui") String jsonData);
+    Call<String> streamJson(@Header("Grpc-Metadata-Authorization") String jwtToken, @Path("dev_eui") String jsonData);
 }

@@ -2,6 +2,8 @@ package com.example.saiapi.fragments.ui;
 
 import com.example.saiapi.fragments.api.service.Api;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -16,11 +18,11 @@ public final class ApiClient {
     }
 
 
-     private static Retrofit getClient() {
+    private static Retrofit getClient() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
-
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+                .build();
 
 
         return new Retrofit.Builder()

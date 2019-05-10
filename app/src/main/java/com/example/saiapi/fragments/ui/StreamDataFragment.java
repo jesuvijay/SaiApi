@@ -1,8 +1,6 @@
 package com.example.saiapi.fragments.ui;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +12,8 @@ import androidx.fragment.app.Fragment;
 import com.example.saiapi.R;
 import com.example.saiapi.utils.constants.Constants;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,81 +75,96 @@ public class StreamDataFragment extends Fragment {
     }
 
     private void callData(String devEui) {
-        Call<ResponseBody> responseBodyCall = ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()), devEui);
-        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+        Call<String> responseBodyCall = ApiClient.getApi().streamJson(Constants.getJwtToken(getContext()), devEui);
+        responseBodyCall.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "server contacted and has file");
-//                    tvStreamData.setText(response.body().toString());
-                    new AsyncTask<Void, Void, Void>() {
-
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            boolean writtenToDisk = writeResponse(response.body());
-                            return null;
-                        }
-                    };
-                } else {
-                    Log.d(TAG, "server contact failed");
-                }
-            }
-
-            private boolean writeResponse(ResponseBody body) {
-                try {
-                    // todo change the file location/name according to your needs
-                    File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(null) + File.separator + "sample.txt");
-
-                    InputStream inputStream = null;
-                    OutputStream outputStream = null;
-
-                    try {
-                        byte[] fileReader = new byte[4096];
-
-                        long fileSize = body.contentLength();
-                        long fileSizeDownloaded = 0;
-
-                        inputStream = body.byteStream();
-                        outputStream = new FileOutputStream(futureStudioIconFile);
-
-                        while (true) {
-                            int read = inputStream.read(fileReader);
-
-                            if (read == -1) {
-                                break;
-                            }
-
-                            outputStream.write(fileReader, 0, read);
-
-                            fileSizeDownloaded += read;
-
-                            Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                        }
-
-                        outputStream.flush();
-
-                        return true;
-                    } catch (IOException e) {
-                        return false;
-                    } finally {
-                        if (inputStream != null) {
-                            inputStream.close();
-                        }
-
-                        if (outputStream != null) {
-                            outputStream.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    return false;
-                }
+                    Log.d(TAG, "onResponse: " + response.body());
+                } else
+                    Log.d(TAG, "onResponse: response not successgfull");
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.toString());
 
             }
         });
+//        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d(TAG, "server contacted and has file");
+////                    tvStreamData.setText(response.body().toString());
+////                    new AsyncTask<Void, Void, Void>() {
+////
+////                        @Override
+////                        protected Void doInBackground(Void... voids) {
+////                            boolean writtenToDisk = writeResponse(response.body());
+////                            return null;
+////                        }
+////                    };
+//                } else {
+//                    Log.d(TAG, "server contact failed");
+//                }
+//            }
+//
+//            private boolean writeResponse(ResponseBody body) {
+//                try {
+//                    // todo change the file location/name according to your needs
+//                    File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(null) + File.separator + "sample.txt");
+//
+//                    InputStream inputStream = null;
+//                    OutputStream outputStream = null;
+//
+//                    try {
+//                        byte[] fileReader = new byte[4096];
+//
+//                        long fileSize = body.contentLength();
+//                        long fileSizeDownloaded = 0;
+//
+//                        inputStream = body.byteStream();
+//                        outputStream = new FileOutputStream(futureStudioIconFile);
+//
+//                        while (true) {
+//                            int read = inputStream.read(fileReader);
+//
+//                            if (read == -1) {
+//                                break;
+//                            }
+//
+//                            outputStream.write(fileReader, 0, read);
+//
+//                            fileSizeDownloaded += read;
+//
+//                            Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+//                        }
+//
+//                        outputStream.flush();
+//
+//                        return true;
+//                    } catch (IOException e) {
+//                        return false;
+//                    } finally {
+//                        if (inputStream != null) {
+//                            inputStream.close();
+//                        }
+//
+//                        if (outputStream != null) {
+//                            outputStream.close();
+//                        }
+//                    }
+//                } catch (IOException e) {
+//                    return false;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
 
     }
 
